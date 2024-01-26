@@ -29,8 +29,17 @@ class TodoListApplicationTests {
                 .jsonPath("$[0].description").isEqualTo(todo.getDescription())
                 .jsonPath("$[0].done").isEqualTo(todo.isDone())
                 .jsonPath("$[0].priority").isEqualTo(todo.getPriority());
+    }
 
-
+    @Test
+    void testCreateFailure() {
+        webTestClient
+                .post()
+                .uri("/todos")
+                .bodyValue(
+                        new Todo("", "", false, 4))
+                .exchange()
+                .expectStatus().isBadRequest();
     }
 
 }
